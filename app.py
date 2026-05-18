@@ -133,7 +133,8 @@ def gerar_wordcloud_fig(palavras, colormap, titulo):
     fig, ax = plt.subplots(figsize=(9, 4.2))
     ax.imshow(wc, interpolation="bilinear")
     ax.axis("off")
-    ax.set_title(titulo, fontsize=13, fontweight="bold", pad=8)
+    if titulo:
+        ax.set_title(titulo, fontsize=13, fontweight="bold", pad=8)
     fig.tight_layout()
     return fig
 
@@ -358,23 +359,23 @@ with c8:
     fig_box.update_layout(showlegend=False, margin=dict(t=10,b=10,l=10,r=10), height=340)
     st.plotly_chart(fig_box, use_container_width=True)
 
-# ── Nuvem de palavras ──────────────────────────────────────────────────────────
+# ── Nuvem de palavras — três colunas na mesma aba ─────────────────────────────
 st.markdown("---")
 st.subheader("☁️ Nuvem de Palavras por Sentimento")
 
-tab_pos, tab_neg, tab_neu, tab_all = st.tabs(["😊 Positivos","😠 Negativos","😐 Neutros","🌐 Todos"])
+wc_col1, wc_col2, wc_col3 = st.columns(3)
 
-for sent_filtro, cmap, titulo, tab in [
-    ("Positivo","Greens","Palavras nos Comentários Positivos",tab_pos),
-    ("Negativo","Reds",  "Palavras nos Comentários Negativos",tab_neg),
-    ("Neutro",  "Blues", "Palavras nos Comentários Neutros",  tab_neu),
-    (None,      "plasma","Palavras em Todos os Comentários",  tab_all),
+for col, sent_filtro, cmap, rotulo in [
+    (wc_col1, "Positivo", "Greens", "😊 Positivos"),
+    (wc_col2, "Negativo", "Reds",   "😠 Negativos"),
+    (wc_col3, "Neutro",   "Blues",  "😐 Neutros"),
 ]:
-    with tab:
-        sub = dff[dff["sentimento"] == sent_filtro] if sent_filtro else dff
+    with col:
+        st.markdown(f"**{rotulo}**")
+        sub      = dff[dff["sentimento"] == sent_filtro]
         palavras = extrair_palavras(sub["comentario"])
         if palavras:
-            fig = gerar_wordcloud_fig(palavras, cmap, titulo)
+            fig = gerar_wordcloud_fig(palavras, cmap, "")
             if fig:
                 st.image(fig_para_bytes(fig), use_container_width=True)
         else:
