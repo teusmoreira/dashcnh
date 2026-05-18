@@ -122,17 +122,26 @@ def gerar_wordcloud_fig(palavras, colormap, titulo):
     freq = Counter(palavras)
     if not freq:
         return None
+    
+    # ADAPTADO: background_color alterado para None e inclusão do modo RGBA para suportar transparência
     wc = WordCloud(
         width=720, height=380,
-        background_color="white",
+        background_color=None,
+        mode="RGBA",
         colormap=colormap,
         max_words=100,
         collocations=False,
         prefer_horizontal=0.75,
     ).generate_from_frequencies(freq)
+    
     fig, ax = plt.subplots(figsize=(9, 4.2))
     ax.imshow(wc, interpolation="bilinear")
     ax.axis("off")
+    
+    # ADAPTADO: Garante que os fundos das figuras geradas pelo Matplotlib também fiquem 100% transparentes
+    fig.patch.set_alpha(0.0)
+    ax.patch.set_alpha(0.0)
+    
     if titulo:
         ax.set_title(titulo, fontsize=13, fontweight="bold", pad=8)
     fig.tight_layout()
@@ -140,7 +149,8 @@ def gerar_wordcloud_fig(palavras, colormap, titulo):
 
 def fig_para_bytes(fig):
     buf = BytesIO()
-    fig.savefig(buf, format="png", dpi=130, bbox_inches="tight")
+    # ADAPTADO: Incluído transparent=True para salvar os buffers preservando o canal alfa
+    fig.savefig(buf, format="png", dpi=130, bbox_inches="tight", transparent=True)
     plt.close(fig)
     return buf.getvalue()
 
