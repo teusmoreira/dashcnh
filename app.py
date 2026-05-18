@@ -196,7 +196,7 @@ st.markdown("""
 <h1 style='text-align:center; color:#1a1a2e;'>
   🚗 Análise de Sentimentos — Novas Regras da CNH
 </h1>
-<p style='text-align:center; color:#666; font-size:15px;'>
+<p style='text-align:center; color:#FFFFFF; font-size:20px;'>
   Comentários coletados do YouTube via API · Mudanças no processo de habilitação no Brasil
 </p>
 <hr style='margin-top:0'>
