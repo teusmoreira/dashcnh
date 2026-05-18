@@ -193,7 +193,7 @@ dff = dff[dff["n_palavras"] >= filtro_palavras]
 
 # ── Header ────────────────────────────────────────────────────────────────────
 st.markdown("""
-<h1 style='text-align:center; color:#1a1a2e;'>
+<h1 style='text-align:center; color:white;'>
   🚗 Análise de Sentimentos — Novas Regras da CNH
 </h1>
 <p style='text-align:center; color:white; font-size:20px;'>
